@@ -98,6 +98,6 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-   'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=3),
-   'AUTH_HEADER_TYPES': ('Bearer',),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
