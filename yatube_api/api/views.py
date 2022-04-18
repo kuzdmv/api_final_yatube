@@ -4,9 +4,9 @@ from rest_framework import pagination
 from rest_framework import filters
 from rest_framework import permissions
 
-from posts.models import Post, Group, Comment, Follow
+from posts.models import Post, Group, Comment
 from .permissions import AuthorOrReadOnly
-from .mixins import ListRetrieveViewSet
+from .mixins import ListRetrieveViewSet, ListCreateViewSet
 from .serializers import (
     PostSerializer,
     CommentSerializer,
@@ -47,7 +47,7 @@ class GroupViewSet(ListRetrieveViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(ListCreateViewSet):
     serializer_class = FollowSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('following__username',)
@@ -56,5 +56,5 @@ class FollowViewSet(viewsets.ModelViewSet):
         return serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        new_queryset = Follow.objects.filter(user=self.request.user)
+        new_queryset = self.request.user.follower.all()
         return new_queryset
